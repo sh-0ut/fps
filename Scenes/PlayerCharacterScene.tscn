@@ -26,10 +26,10 @@ noise = SubResource("FastNoiseLite_cdisy")
 shader = ExtResource("12_8u6b8")
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/line_count = 2.0
-shader_parameter/line_density = 0.8
+shader_parameter/line_density = 0.455
 shader_parameter/line_faloff = 1.0
-shader_parameter/mask_size = 0.1
-shader_parameter/mask_edge = 0.8
+shader_parameter/mask_size = 0.0
+shader_parameter/mask_edge = 0.515
 shader_parameter/animation_speed = 20.0
 shader_parameter/noise = SubResource("NoiseTexture2D_78nux")
 
@@ -165,7 +165,6 @@ points = PackedVector2Array(-5, 0, -15, 0)
 width = 2.0
 
 [node name="SpeedLinesContrainer" type="ColorRect" parent="HUD"]
-visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_fk5op")
 layout_mode = 1

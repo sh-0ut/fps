@@ -61,9 +61,10 @@ transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -
 shadow_enabled = true
 
 [node name="PlayerCharacter" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.98972, 3.14205, 0)
 
 [node name="PlayerCharacterV2" parent="PlayerCharacter" instance=ExtResource("1_tvhlt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.0786, 6.03221, 2.18378)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.0786, 5.43324, 2.18378)
 maxSpeed = 350.0
 walkSpeed = 15.0
 runSpeed = 25.0

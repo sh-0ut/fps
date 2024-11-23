@@ -6,7 +6,7 @@ class_name PlayerCharacter
 #states variables
 enum states
 {
-	IDLE, WALK, RUN, CROUCH, SLIDE, JUMP, INAIR, ONWALL, DASH 
+	IDLE, WALK, RUN, CROUCH, SLIDE, JUMP, INAIR, ONWALL, DASH , RELOAD
 }
 var currentState 
 
@@ -137,7 +137,10 @@ func inputManagement():
 	#for each state, check the possibles actions available
 	#This allow to have a good control of the controller behaviour, because you can easely check the actions possibls, 
 	#add or remove some, and it prevent certain actions from being played when they shouldn't be
-	
+	if Input.is_action_pressed("reloadScene"):
+		#get_tree().reload_current_scene()
+		position.x = 0;
+		position.y = 0;
 	if canInput:
 		match currentState:
 			states.IDLE:
