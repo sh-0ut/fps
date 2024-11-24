@@ -6,7 +6,7 @@ class_name PlayerCharacter
 #states variables
 enum states
 {
-	IDLE, WALK, RUN, CROUCH, SLIDE, JUMP, INAIR, ONWALL, DASH , RELOAD
+	IDLE, WALK, RUN, CROUCH, SLIDE, JUMP, INAIR, ONWALL, DASH , HOOKING
 }
 var currentState 
 
@@ -89,8 +89,22 @@ var velocityPreDash : Vector3
 @onready var ceilingCheck = $CeilingCheck
 @onready var mesh = $MeshInstance3D
 @onready var hud = $HUD
+@onready var raycast = $CameraHolder/RayCast3D
+@onready var hook_visual = $CameraHolder/HookVisual
+
+#hook variables
+@export_group("hook variables")
+@export var max_hook_distance : float = 20.0
+@export var pull_speed: float = 10.0
+@export var hook_speed: float = 30.0
+@export var hook_position: Vector3
+@export var hook_target: Vector3
+@export var hook_active: bool = false
+@export var is_pulling: bool = false
+
 
 func _ready():
+	hook_visual.visible = false
 	#set the start move speed
 	moveSpeed = walkSpeed
 	moveAcceleration = walkAcceleration
@@ -122,6 +136,9 @@ func _process(_delta):
 	
 	displayStats()
 	
+
+
+
 func _physics_process(delta):
 	#the behaviours that is preferable to check every "physics" frame
 	
@@ -132,11 +149,37 @@ func _physics_process(delta):
 	collisionHandling()
 	
 	move_and_slide()
+	
+	if hook_active:
+		print("Hook position:", hook_position, "Target:", hook_target)
+		hook_position = hook_position.lerp(hook_target, hook_speed * delta)
+		hook_visual.global_transform.origin = hook_position
+
+		if raycast.is_colliding() or hook_position.distance_to(hook_target) < 1.0:
+			if raycast.is_colliding():
+				print("RayCast hit:", raycast.get_collision_point())
+				hook_target = raycast.get_collision_point()
+				is_pulling = true
+			else:
+				print("RayCast did not hit anything")
+			hook_active = false
+	
+	elif is_pulling:
+		global_transform.origin = global_transform.origin.lerp(hook_target, pull_speed * delta)
+		if global_transform.origin.distance_to(hook_target) < 1.0:
+			is_pulling = false
+	
+	
 
 func inputManagement():
 	#for each state, check the possibles actions available
 	#This allow to have a good control of the controller behaviour, because you can easely check the actions possibls, 
 	#add or remove some, and it prevent certain actions from being played when they shouldn't be
+	
+	if Input.is_action_pressed("shoot_hook"):
+		#print("Shoot hook action triggered") 
+		hook()
+	
 	if Input.is_action_pressed("reloadScene"):
 		#get_tree().reload_current_scene()
 		position.x = 0;
@@ -314,6 +357,19 @@ func applies(delta):
 			
 		if jumpCooldown > 0: jumpCooldown -= delta
 		
+
+func hook():
+	#print("shoot_hook() called")
+	if not hook_active and not is_pulling:
+		hook_active = true
+		hook_position = global_transform.origin
+		
+		var camera_direction = cameraHolder.global_transform.basis.z.normalized()
+		hook_target = cameraHolder.global_transform.origin + -camera_direction * max_hook_distance
+		raycast.target_position = hook_target - global_transform.origin
+		hook_visual.visible = true
+		#print("Hook launched")
+
 func move(delta):
 	#direction input
 	inputDirection = Input.get_vector("moveLeft", "moveRight", "moveForward", "moveBackward")
