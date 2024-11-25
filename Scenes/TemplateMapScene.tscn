@@ -90,6 +90,134 @@ collision_layer = 5
 collision_mask = 2
 size = Vector3(55.356, 8, 0)
 
+[node name="WalkableWall8" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(1, 0, 0, 0, 6.32579, 0, 0, 0, 1, -269.78, 24.6352, 109.762)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall9" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(0.912506, 0, 0.409063, 0, 6.32579, 0, -0.409063, 0, 0.912506, -314.03, 21.8588, 118.932)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall10" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(0.677428, 0, 0.735589, 0, 6.32579, 0, -0.735589, 0, 0.677428, -342.982, 21.8588, 139.032)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall11" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(0.370525, 0, 0.928823, 0, 6.32579, 0, -0.928823, 0, 0.370525, -364.768, 27.0343, 170.465)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall12" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(-0.0182726, 0, 0.999833, 0, 6.32579, 0, -0.999833, 0, -0.0182726, -372.574, 30.7584, 208.535)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall13" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(-0.483252, 0, 0.875481, 0, 6.32579, 0, -0.875481, 0, -0.483252, -359.632, 37.4728, 250.751)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall14" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(-0.649939, 0, 0.759986, 0, 6.32579, 0, -0.759986, 0, -0.649939, -334.942, 46.3649, 285.472)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall15" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(-0.896857, 0, 0.44232, 0, 6.32579, 0, -0.44232, 0, -0.896857, -307.489, 46.3649, 307.575)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall16" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(-0.995632, 0, 0.093361, 0, 6.32579, 0, -0.093361, 0, -0.995632, -271.186, 51.5404, 319.606)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall17" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(-0.954042, 0, -0.299674, 0, 6.32579, 0, 0.299674, 0, -0.954042, -232.46, 55.2645, 316.351)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall18" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(-0.703531, 0, -0.710664, 0, 6.32579, 0, 0.710664, 0, -0.703531, -196.196, 64.3201, 295.652)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8.33594, 0)
+
+[node name="WalkableWall19" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(-0.485649, 0, -0.874154, 0, 6.32579, 0, 0.874154, 0, -0.485649, -171.782, 61.2376, 259.032)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall20" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(-0.10182, 0, -0.994803, 0, 6.32579, 0, 0.994803, 0, -0.10182, -160.639, 61.2376, 225.595)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall21" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(0.259679, 0, -0.965695, 0, 6.32579, 0, 0.965695, 0, 0.259679, -162.022, 66.4131, 187.375)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall22" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(0.613541, 0, -0.789662, 0, 6.32579, 0, 0.789662, 0, 0.613541, -178.577, 70.1372, 152.215)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
+[node name="WalkableWall23" type="CSGBox3D" parent="Map/WalkableWalls"]
+transform = Transform3D(0.911382, 0, -0.411562, 0, 6.32579, 0, 0.411562, 0, 0.911382, -214.227, 76.8515, 126.164)
+material_override = SubResource("StandardMaterial3D_h3yst")
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(55.356, 8, 0)
+
 [node name="WalkableWall6" type="CSGBox3D" parent="Map/WalkableWalls"]
 transform = Transform3D(1, 0, 0, 0, 6.32579, 0, 0, 0, 1, -142.052, 24.6352, 122.859)
 material_override = SubResource("StandardMaterial3D_h3yst")

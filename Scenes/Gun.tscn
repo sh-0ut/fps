@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://4181m7n13t44"]
+
+[ext_resource type="Script" path="res://Scenes/gun.gd" id="1_na0ft"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_udulp"]
+
+[node name="Gun" type="Node3D"]
+script = ExtResource("1_na0ft")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.00503643, -0.988606, 0, 0.354917, 0.0140288, 0, 0, 0, 0.29275, 0, 0, 0)
+mesh = SubResource("CylinderMesh_udulp")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.00673608, -0.0597026, 0, 0.474691, 0.000847209, 0, 0, 0, 0.374503, -0.866194, 0, 0)
+mesh = SubResource("CylinderMesh_udulp")
+
+[node name="start" type="Node3D" parent="."]
+transform = Transform3D(-0.010594, 0, -0.999944, 0, 1, 0, 0.999944, 0, -0.010594, -1.50995, 2.38419e-07, 0.00125217)

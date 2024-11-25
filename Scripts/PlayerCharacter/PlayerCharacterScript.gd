@@ -10,8 +10,6 @@ enum states
 }
 var currentState 
 
-var log = print
-
 #move variables
 @export_group("move variables")
 var moveSpeed : float
@@ -91,8 +89,9 @@ var velocityPreDash : Vector3
 @onready var ceilingCheck = $CeilingCheck
 @onready var mesh = $MeshInstance3D
 @onready var hud = $HUD
-@onready var raycast = $CameraHolder/RayCast3D
+@onready var raycast = $CameraHolder/Camera3D/RayCast3D
 @onready var hook_visual = $CameraHolder/HookVisual
+@onready var camera = $CameraHolder/Camera3D
 
 #hook variables
 @export_group("hook variables")
@@ -105,7 +104,11 @@ var velocityPreDash : Vector3
 @export var is_pulling: bool = false
 
 
+
+
 func _ready():
+	raycast.collision_mask = 1
+	GState.player = self
 	hook_visual.visible = false
 	#set the start move speed
 	moveSpeed = walkSpeed
@@ -137,24 +140,33 @@ func _process(_delta):
 	inputManagement()
 	
 	displayStats()
+	
+func _physics_process(delta):
+	raycast.enabled = true
+	#the behaviours that is preferable to check every "physics" frame
+	applies(delta)
+	move(delta)
+	collisionHandling()
+	move_and_slide()
+	hooking_mech(delta)
+	#print('1', camera.get_camera_transform())
+	#print('2', raycast.transform)
+	#raycast.transform
 
 
 func hooking_mech(delta):
 	if hook_active:
-		#print("Hook position:", hook_position, "Target:", hook_target)
-		
 		# Рух гака
 		hook_position = hook_position.lerp(hook_target, hook_speed * delta)
 		hook_visual.global_transform = Transform3D(
 			hook_visual.global_transform.basis,
 			hook_position
 			)
-
 		# Оновлення лінії
 		#update_hook_line()
-
 		# Перевірка зіткнення або досягнення цілі
 		if raycast.is_colliding():
+			print(raycast.get_collider().name)
 			var collision_point = raycast.get_collision_point()
 			#print("RayCast hit:", collision_point)
 			hook_target = collision_point
@@ -177,7 +189,7 @@ func hooking_mech(delta):
 		print('Dir', direction_to_target)
 		global_transform.origin += direction_to_target * pull_speed * delta
 		hook_visual.global_transform.origin = hook_target
-
+		print('Target',hook_target)
 		# Оновлення лінії
 		#update_hook_line()
 
@@ -191,38 +203,35 @@ func hooking_mech(delta):
 		#clear_hook_line()
 
 
-func _physics_process(delta):
-	#the behaviours that is preferable to check every "physics" frame
-	applies(delta)
-	
-	move(delta)
-	
-	collisionHandling()
-	
-	move_and_slide()
-	hooking_mech(delta)
+
+
 
 
 func hook():
 	if not hook_active and not is_pulling:
+		raycast.enabled = true
 		hook_active = true
 		hook_position = global_transform.origin
-		print(hook_position)
+		#print(hook_position)
+		
 
-		# Отримуємо повний напрямок камери
-		var camera_direction = -cameraHolder.global_transform.basis.z.normalized()
-		hook_target = cameraHolder.global_transform.origin + camera_direction * max_hook_distance
-		#hook_target = cameraHolder.global_transform.origin * max_hook_distance
-
-		# Встановлюємо target_position для RayCast3D
-		raycast.global_transform.origin = global_transform.origin
-		raycast.target_position = camera_direction * max_hook_distance
-		#raycast.target_position = max_hook_distance
+		var camera_direction = -camera.global_transform.basis.y
+		hook_target = camera.global_transform.origin + camera_direction * max_hook_distance
+		raycast.global_transform.origin = hook_position
+		#raycast.target_position = camera_direction * max_hook_distance
+		raycast.target_position = raycast.target_position.normalized() * max_hook_distance
+		
+		hook_visual.global_transform.origin = hook_position
 		
 		raycast.enabled = true
-
 		hook_visual.visible = true
 		print("Hook launched: Target =", hook_target)
+	else:
+		hook_active = false
+		is_pulling = false
+		hook_visual.visible = false
+		pass
+
 
 
 func update_hook_line():
@@ -266,9 +275,10 @@ func inputManagement():
 	#This allow to have a good control of the controller behaviour, because you can easely check the actions possibls, 
 	#add or remove some, and it prevent certain actions from being played when they shouldn't be
 	
-	if Input.is_action_pressed("shoot_hook"):
-		#print("Shoot hook action triggered") 
+	if Input.is_action_just_pressed("shoot_hook"):
 		hook()
+	if Input.is_action_just_pressed('gun_shoot'):
+		$CameraHolder/Camera3D/Gun.fire()
 	
 	if Input.is_action_pressed("reloadScene"):
 		#get_tree().reload_current_scene()

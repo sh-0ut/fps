@@ -1,9 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://bwggrf7sbmkcv"]
+[gd_scene load_steps=15 format=3 uid="uid://bwggrf7sbmkcv"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter/PlayerCharacterScript.gd" id="1_5dbx1"]
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter/CameraScript.gd" id="2_x12n0"]
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter/HUDScript.gd" id="3_l04tv"]
-[ext_resource type="PackedScene" uid="uid://4181m7n13t44" path="res://Scenes/Gun.tscn" id="3_o63qb"]
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter/HUDRedimensionmentScript.gd" id="5_jgfg0"]
 [ext_resource type="Shader" path="res://Arts/Shaders/SpeedLinesShader.gdshader" id="12_8u6b8"]
 
@@ -73,9 +72,8 @@ wallJumpVelocity = 3.0
 dashTime = 0.09
 timeBeforeCanDashAgain = 2.0
 wallGravityMultiplier = 0.7
-max_hook_distance = 50.0
-pull_speed = 50.0
-hook_speed = 1.0
+max_hook_distance = 32.51
+hook_speed = 2.0
 
 [node name="standingHitbox" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_5yjma")
@@ -110,27 +108,25 @@ camTiltRotationSpeed = 2.2
 mouseInputSpeed = 2.0
 
 [node name="HookVisual" type="MeshInstance3D" parent="CameraHolder"]
-transform = Transform3D(9.68351e-10, -6.15447e-08, -1.20131, -1.19731, -0.0260513, 0, -0.0221533, 1.40798, -5.25108e-08, -0.468875, -0.037998, 1.55933)
+transform = Transform3D(9.68351e-10, -6.15447e-08, -1.20131, -1.19731, -0.0260513, 0, -0.0221533, 1.40798, -5.25108e-08, -0.468875, -0.037998, -2.24967)
 mesh = SubResource("SphereMesh_ijjmu")
-skeleton = NodePath("../Camera3D/RayCast3D")
+skeleton = NodePath("../RayCast3D")
 
 [node name="Camera3D" type="Camera3D" parent="CameraHolder"]
 cull_mask = 1
 current = true
-fov = 90.0
+fov = 1.0
 near = 0.01
 far = 1000.0
 
-[node name="RayCast3D" type="RayCast3D" parent="CameraHolder/Camera3D"]
-transform = Transform3D(8.08636e-10, -4.37039e-08, -1, -0.999829, -0.0184994, 0, -0.0184994, 0.999829, -4.37114e-08, -0.220484, -0.106714, -0.151626)
+[node name="RayCast3D" type="RayCast3D" parent="CameraHolder"]
+transform = Transform3D(8.08636e-10, -4.37039e-08, -1, -0.999829, -0.0184994, 0, -0.0184994, 0.999829, -4.37114e-08, 1.61812e-08, -0.106714, -0.370184)
 collide_with_areas = true
 debug_shape_custom_color = Color(0.992157, 0.0431373, 0.87451, 1)
-
-[node name="Gun" parent="CameraHolder/Camera3D" instance=ExtResource("3_o63qb")]
-transform = Transform3D(-2.8889e-08, 0, -1, 0, 1, 0, 0.660904, 0, -4.37114e-08, 1.00522, -0.713954, -1.04865)
+debug_shape_thickness = 3
 
 [node name="HookLine" type="MeshInstance3D" parent="CameraHolder"]
-transform = Transform3D(-2.91862e-07, 0, -6.67703, 0, 6.67703, 0, 6.67703, 0, -2.91862e-07, -6.32001e-08, -0.334105, 1.44585)
+transform = Transform3D(-2.91862e-07, 0, -6.67703, 0, 6.67703, 0, 6.67703, 0, -2.91862e-07, 5.04811e-08, -0.334105, -1.15487)
 mesh = SubResource("ImmediateMesh_lgwmj")
 skeleton = NodePath("../..")
 
