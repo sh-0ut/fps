@@ -11,11 +11,13 @@ ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
 [sub_resource type="Sky" id="Sky_iebnq"]
 sky_material = SubResource("ProceduralSkyMaterial_fjbi6")
+radiance_size = 4
 
 [sub_resource type="Environment" id="Environment_pyxgo"]
 background_mode = 2
+background_energy_multiplier = 1.7
 sky = SubResource("Sky_iebnq")
-tonemap_mode = 2
+tonemap_mode = 3
 glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h3yst"]
@@ -59,26 +61,6 @@ environment = SubResource("Environment_pyxgo")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
-
-[node name="PlayerCharacter" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.98972, 3.14205, 0)
-
-[node name="PlayerCharacterV2" parent="PlayerCharacter" instance=ExtResource("1_tvhlt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.0786, 5.43324, 2.18378)
-maxSpeed = 350.0
-walkSpeed = 15.0
-runSpeed = 25.0
-crouchSpeed = 10.0
-slideSpeedAddon = 12.0
-dashSpeed = 150.0
-runAcceleration = 15.0
-jumpHeight = 5.0
-jumpCooldown = 0.115
-nbJumpsInAirAllowed = 5
-slideTime = 1.605
-timeBeforeCanSlideAgain = 0.1
-dashTime = 0.225
-timeBeforeCanDashAgain = 0.5
 
 [node name="Map" type="Node3D" parent="."]
 
@@ -367,12 +349,32 @@ collision_mask = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0425774, 0)
 shape = SubResource("CylinderShape3D_vm7yl")
 
-[node name="CSGBox3D15" type="CSGBox3D" parent="."]
+[node name="CSGBox3D15" type="CSGBox3D" parent="Map"]
 transform = Transform3D(-0.532699, 0, 0.846305, 0, 1, 0, -0.846305, 0, -0.532699, -85.7706, 143.131, 56.6051)
 material_override = SubResource("StandardMaterial3D_ygjqq")
 use_collision = true
 collision_mask = 2
 size = Vector3(155.057, 1, 94.73)
+
+[node name="PlayerCharacter" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.98972, 3.14205, 0)
+
+[node name="PlayerCharacterV2" parent="PlayerCharacter" instance=ExtResource("1_tvhlt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.0786, 5.43324, 2.18378)
+maxSpeed = 350.0
+walkSpeed = 15.0
+runSpeed = 25.0
+crouchSpeed = 10.0
+slideSpeedAddon = 12.0
+dashSpeed = 150.0
+runAcceleration = 15.0
+jumpHeight = 5.0
+jumpCooldown = 0.115
+nbJumpsInAirAllowed = 5
+slideTime = 1.605
+timeBeforeCanSlideAgain = 0.1
+dashTime = 0.225
+timeBeforeCanDashAgain = 0.5
 
 [connection signal="area_entered" from="Map/Jumppads/Jumppad/Area3D" to="Map/Jumppads/Jumppad" method="_on_area_3d_area_entered"]
 [connection signal="area_entered" from="Map/Jumppads/Jumppad3/Area3D" to="Map/Jumppads/Jumppad3" method="_on_area_3d_area_entered"]

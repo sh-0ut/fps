@@ -72,7 +72,7 @@ wallJumpVelocity = 3.0
 dashTime = 0.09
 timeBeforeCanDashAgain = 2.0
 wallGravityMultiplier = 0.7
-max_hook_distance = 32.51
+max_hook_distance = 10.0
 hook_speed = 2.0
 
 [node name="standingHitbox" type="CollisionShape3D" parent="."]
@@ -108,7 +108,7 @@ camTiltRotationSpeed = 2.2
 mouseInputSpeed = 2.0
 
 [node name="HookVisual" type="MeshInstance3D" parent="CameraHolder"]
-transform = Transform3D(9.68351e-10, -6.15447e-08, -1.20131, -1.19731, -0.0260513, 0, -0.0221533, 1.40798, -5.25108e-08, -0.468875, -0.037998, -2.24967)
+transform = Transform3D(3.82095e-10, -2.08383e-08, -0.472596, -0.472437, -0.00882065, 0, -0.00874132, 0.476725, -2.06578e-08, -0.468875, 1.06421, -1.08189)
 mesh = SubResource("SphereMesh_ijjmu")
 skeleton = NodePath("../RayCast3D")
 
@@ -122,8 +122,7 @@ far = 1000.0
 [node name="RayCast3D" type="RayCast3D" parent="CameraHolder"]
 transform = Transform3D(8.08636e-10, -4.37039e-08, -1, -0.999829, -0.0184994, 0, -0.0184994, 0.999829, -4.37114e-08, 1.61812e-08, -0.106714, -0.370184)
 collide_with_areas = true
-debug_shape_custom_color = Color(0.992157, 0.0431373, 0.87451, 1)
-debug_shape_thickness = 3
+debug_shape_custom_color = Color(0, 1, 0, 1)
 
 [node name="HookLine" type="MeshInstance3D" parent="CameraHolder"]
 transform = Transform3D(-2.91862e-07, 0, -6.67703, 0, 6.67703, 0, 6.67703, 0, -2.91862e-07, 5.04811e-08, -0.334105, -1.15487)
