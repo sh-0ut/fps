@@ -89,8 +89,8 @@ var velocityPreDash : Vector3
 @onready var ceilingCheck = $CeilingCheck
 @onready var mesh = $MeshInstance3D
 @onready var hud = $HUD
-@onready var raycast = $CameraHolder/Camera3D/RayCast3D
-@onready var hook_visual = $CameraHolder/HookVisual
+#@onready var raycast = $CameraHolder/Camera3D/RayCast3D
+@onready var hook_visual = $HookVisual
 @onready var camera = $CameraHolder/Camera3D
 
 #hook variables
@@ -102,12 +102,12 @@ var velocityPreDash : Vector3
 @export var hook_target: Vector3
 @export var hook_active: bool = false
 @export var is_pulling: bool = false
-
-
+var is_already_shoot: bool = false
 
 
 func _ready():
-	raycast.collision_mask = 1
+	GState.connect("hook_signal", ff)
+	#raycast.collision_mask = 1
 	GState.player = self
 	hook_visual.visible = false
 	#set the start move speed
@@ -142,7 +142,7 @@ func _process(_delta):
 	displayStats()
 	
 func _physics_process(delta):
-	raycast.enabled = true
+	#raycast.enabled = true
 	#the behaviours that is preferable to check every "physics" frame
 	applies(delta)
 	move(delta)
@@ -156,127 +156,52 @@ func _physics_process(delta):
 
 func hooking_mech(delta):
 	if hook_active:
-		# Рух гака
-		hook_position = hook_position.lerp(hook_target, hook_speed * delta)
-		hook_visual.global_transform = Transform3D(
-			hook_visual.global_transform.basis,
-			hook_position
-			)
-		# Оновлення лінії
-		#update_hook_line()
-		# Перевірка зіткнення або досягнення цілі
-		if raycast.is_colliding():
-			print(raycast.get_collider().name)
-			var collision_point = raycast.get_collision_point()
-			#print("RayCast hit:", collision_point)
-			hook_target = collision_point
-			
-			hook_position = collision_point
-			hook_visual.global_transform.origin = collision_point
-			print("Hook stuck to target at:", collision_point)
-			
-			is_pulling = true
-			hook_active = false
-		elif hook_position.distance_to(hook_target) < 1.0:
-			print("Hook reached target")
-			hook_active = false
-			hook_visual.global_transform.origin = hook_target
-
-
+		print('TARGET ', hook_target)
+		is_pulling = true
+		hook_active = false
 	elif is_pulling:
+		hook_visual.global_transform.origin = hook_target
+		hook_visual.visible = true
 		# Притягування персонажа
 		var direction_to_target = (hook_target - global_transform.origin).normalized()
-		print('Dir', direction_to_target)
+		direction_to_target.y += hook_target.y / global_transform.origin.y
 		global_transform.origin += direction_to_target * pull_speed * delta
-		hook_visual.global_transform.origin = hook_target
-		print('Target',hook_target)
-		# Оновлення лінії
-		#update_hook_line()
-
 		# Перевірка завершення притягування
 		if global_transform.origin.distance_to(hook_target) < 1.0:
-			#print("Pull complete")
 			is_pulling = false
+			is_already_shoot = false
 			hook_visual.visible = false
-			#clear_hook_line()
-	#else:
-		#clear_hook_line()
 
 
-
-
-
-
-func hook():
+func ff(e : Transform3D):
 	if not hook_active and not is_pulling:
-		raycast.enabled = true
 		hook_active = true
-		hook_position = global_transform.origin
-		#print(hook_position)
-		
-
-		var camera_direction = -camera.global_transform.basis.y
-		hook_target = camera.global_transform.origin + camera_direction * max_hook_distance
-		raycast.global_transform.origin = hook_position
-		#raycast.target_position = camera_direction * max_hook_distance
-		raycast.target_position = raycast.target_position.normalized() * max_hook_distance
-		
-		hook_visual.global_transform.origin = hook_position
-		
-		raycast.enabled = true
-		hook_visual.visible = true
-		print("Hook launched: Target =", hook_target)
+		hook_target = e.origin
 	else:
 		hook_active = false
 		is_pulling = false
 		hook_visual.visible = false
-		pass
+	print('transform from e', e.origin)
+	#hook()
 
 
-
-func update_hook_line():
-	# Отримуємо вузол MeshInstance3D
-	var hook_line_mesh = $CameraHolder/HookLine.mesh as ImmediateMesh
-	if hook_line_mesh:
-		# Видаляємо всі попередні поверхні
-		hook_line_mesh.clear_surfaces()
-
-		# Перевірка початкової та кінцевої позицій
-		var start_position = global_transform.origin
-		var end_position = hook_position
-
-		# Виведення для налагодження
-		print("Start position:", start_position, "End position:", end_position)
-
-		# Перевірка на правильність координат
-		if start_position == end_position:
-			print("Warning: Start and End positions are the same!")
-			return
-
-		# Починаємо малювання лінії
-		hook_line_mesh.surface_begin(Mesh.PRIMITIVE_LINES)
-
-		# Додаємо вершини лінії
-		hook_line_mesh.surface_add_vertex(start_position)  # Початок лінії
-		hook_line_mesh.surface_add_vertex(end_position)  # Кінець лінії
-
-		# Завершуємо малювання
-		hook_line_mesh.surface_end()
-
-
-func clear_hook_line():
-	# Очищуємо нитку
-	var hook_line_mesh = $CameraHolder/HookLine.mesh as ImmediateMesh
-	if hook_line_mesh:
-		hook_line_mesh.clear_surfaces()
-	
 func inputManagement():
 	#for each state, check the possibles actions available
 	#This allow to have a good control of the controller behaviour, because you can easely check the actions possibls, 
 	#add or remove some, and it prevent certain actions from being played when they shouldn't be
 	
 	if Input.is_action_just_pressed("shoot_hook"):
-		hook()
+		if not is_already_shoot:
+			$CameraHolder/Camera3D/Gun.fireHook()
+			is_already_shoot = true
+		else:
+			hook_active = false
+			is_pulling = false
+			is_already_shoot = false
+			hook_visual.visible = false
+			if is_instance_valid(GState.hook):
+				GState.hook.queue_free()
+
 	if Input.is_action_just_pressed('gun_shoot'):
 		$CameraHolder/Camera3D/Gun.fire()
 	

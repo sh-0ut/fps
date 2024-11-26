@@ -12,8 +12,14 @@ func _process(delta: float) -> void:
 	pass
 
 const B = preload("res://Scenes/bullet.tscn")
+const H = preload("res://Scenes/hook.tscn")
 
 func fire():
 	var b = B.instantiate()
 	b.global_transform = $start.global_transform
 	GState.add(b)
+	
+func fireHook():
+	var h = H.instantiate()
+	h.global_transform = $start.global_transform
+	GState.add(h)

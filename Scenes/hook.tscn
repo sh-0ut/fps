@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cc18ucodq37j8"]
+
+[ext_resource type="Script" path="res://Scenes/Hook.gd" id="1_w0yea"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_4xff1"]
+uv2_padding = 1.5
+radial_segments = 4
+rings = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_2n7eu"]
+
+[node name="Hook" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.66593e-08, 0, 1.06744)
+script = ExtResource("1_w0yea")
+
+[node name="HookVisual2" type="MeshInstance3D" parent="."]
+transform = Transform3D(9.68351e-10, -6.15447e-08, -1.20131, -1.19731, -0.0260513, 0, -0.0221533, 1.40798, -5.25108e-08, -0.468875, -0.037998, 0.742494)
+mesh = SubResource("SphereMesh_4xff1")
+skeleton = NodePath("../../Camera3D/RayCast3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46407, 0, 0.733904)
+shape = SubResource("SphereShape3D_2n7eu")

@@ -16,8 +16,8 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 		return
 	
-	var o = move_and_collide(dir)
+	var o = move_and_collide(dir * SPEED)
 	if o:
-		print(o.get_collider().name)
+		print('bulet ', o.get_collider().name)
 		queue_free()
 	
