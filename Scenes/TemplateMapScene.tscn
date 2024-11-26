@@ -489,7 +489,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.98972, 3.14205, 0)
 
 [node name="PlayerCharacterV2" parent="PlayerCharacter" instance=ExtResource("1_tvhlt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.0786, 5.43324, 2.18378)
-maxSpeed = 350.0
+maxSpeed = 150.0
 walkSpeed = 15.0
 runSpeed = 25.0
 crouchSpeed = 10.0

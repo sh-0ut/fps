@@ -44,7 +44,7 @@ rings = 1
 [sub_resource type="MeshTexture" id="MeshTexture_hf4sg"]
 
 [sub_resource type="ORMMaterial3D" id="ORMMaterial3D_c3maa"]
-albedo_color = Color(0.263148, 0.24145, 0.289638, 1)
+albedo_color = Color(1, 0.376471, 1, 1)
 albedo_texture = SubResource("MeshTexture_hf4sg")
 
 [sub_resource type="BoxMesh" id="BoxMesh_a2cgi"]
@@ -124,6 +124,11 @@ current = true
 fov = 90.0
 near = 0.01
 far = 1000.0
+
+[node name="RayCast3D" type="RayCast3D" parent="CameraHolder/Camera3D"]
+transform = Transform3D(8.08636e-10, -4.37039e-08, -1, -0.999829, -0.0184994, 0, -0.0184994, 0.999829, -4.37114e-08, -0.220484, -0.106714, -0.151626)
+collide_with_areas = true
+debug_shape_custom_color = Color(0.992157, 0.0431373, 0.87451, 1)
 
 [node name="Gun" parent="CameraHolder/Camera3D" instance=ExtResource("3_o63qb")]
 transform = Transform3D(-2.8889e-08, 0, -1, 0, 1, 0, 0.660904, 0, -4.37114e-08, 1.00522, -0.713954, -1.04865)

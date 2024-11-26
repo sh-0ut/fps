@@ -103,13 +103,16 @@ var velocityPreDash : Vector3
 @export var hook_active: bool = false
 @export var is_pulling: bool = false
 var is_already_shoot: bool = false
+var hook_position_while_flying: Vector3
 
 
 func _ready():
-	GState.connect("hook_signal", ff)
+	GState.connect("hook_signal", hookHandle)
+	GState.connect("hook_current_position", handlePosition)
 	#raycast.collision_mask = 1
 	GState.player = self
 	hook_visual.visible = false
+	$Rope.visible = false
 	#set the start move speed
 	moveSpeed = walkSpeed
 	moveAcceleration = walkAcceleration
@@ -153,13 +156,39 @@ func _physics_process(delta):
 	#print('2', raycast.transform)
 	#raycast.transform
 
+func handlePosition(e: Transform3D):
+	$Rope.visible = true
+	hook_position_while_flying = e.origin
+	#adjust_object_between_points($Rope, global_transform.origin, hook_position_while_flying)
+	adjust_object_between_points($Rope, $CameraHolder/Camera3D/Gun.global_transform.origin, hook_position_while_flying)
+
+func adjust_object_between_points(obj: Node3D, point_a: Vector3, point_b: Vector3):
+	# Розрахунок середньої точки між двома точками
+	var mid_point = (point_a + point_b) * 0.5
+	obj.global_transform.origin = mid_point
+
+	# Розрахунок напрямку та відстані між точками
+	var direction = (point_b - point_a).normalized()
+	var distance = point_a.distance_to(point_b)
+
+	# Орієнтація об'єкта вздовж напрямку
+	var up_vector = Vector3.UP  # Вектор "вгору"
+	var basis = Basis()
+	basis.z = direction
+	basis.x = up_vector.cross(direction).normalized()  # Обчислюємо вісь X через векторний добуток
+	basis.y = basis.z.cross(basis.x).normalized()  # Обчислюємо вісь Y через векторний добуток
+	obj.global_transform.basis = basis
+	
+	# Зміна масштабу об'єкта відповідно до відстані
+	obj.scale = Vector3(obj.scale.x / 10, obj.scale.y / 10, distance)  # Приклад: масштаб по X залежить від відстані
 
 func hooking_mech(delta):
 	if hook_active:
-		print('TARGET ', hook_target)
 		is_pulling = true
 		hook_active = false
+		$Rope.visible = true
 	elif is_pulling:
+		adjust_object_between_points($Rope, global_transform.origin, hook_target)
 		hook_visual.global_transform.origin = hook_target
 		hook_visual.visible = true
 		# Притягування персонажа
@@ -171,16 +200,19 @@ func hooking_mech(delta):
 			is_pulling = false
 			is_already_shoot = false
 			hook_visual.visible = false
+			$Rope.visible = false
 
 
-func ff(e : Transform3D):
+func hookHandle(e : Transform3D):
 	if not hook_active and not is_pulling:
 		hook_active = true
 		hook_target = e.origin
+		$Rope.visible = true
 	else:
 		hook_active = false
 		is_pulling = false
 		hook_visual.visible = false
+		$Rope.visible = false
 	print('transform from e', e.origin)
 	#hook()
 
@@ -199,10 +231,12 @@ func inputManagement():
 			is_pulling = false
 			is_already_shoot = false
 			hook_visual.visible = false
+			$Rope.visible = false
 			if is_instance_valid(GState.hook):
 				GState.hook.queue_free()
 
 	if Input.is_action_just_pressed('gun_shoot'):
+		$Rope.scale = Vector3(3,1,1)
 		$CameraHolder/Camera3D/Gun.fire()
 	
 	if Input.is_action_pressed("reloadScene"):

@@ -21,7 +21,7 @@ func _physics_process(delta: float) -> void:
 	if timer > 2:
 		queue_free()
 		return
-
+	GState.emit_signal("hook_current_position", global_transform)
 
 	var o = move_and_collide(dir * SPEED * delta)
 	if o:
